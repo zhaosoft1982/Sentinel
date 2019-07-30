@@ -42,6 +42,8 @@ import com.alibaba.csp.sentinel.slotchain.StringResourceWrapper;
  * default nodes.
  * </p>
  *
+ * ClusterBuilderSlot 则用于存储资源的统计信息以及调用者信息，例如该资源的 RT, QPS, thread count 等等，这些信息将用作为多维度限流，降级的依据；
+ *
  * @author jialiang.linjl
  */
 public class ClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

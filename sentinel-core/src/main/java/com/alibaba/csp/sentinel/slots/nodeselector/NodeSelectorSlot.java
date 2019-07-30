@@ -148,6 +148,7 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
          * Consider another question. One resource may have multiple {@link DefaultNode},
          * so what is the fastest way to get total statistics of the same resource?
          * The answer is all {@link DefaultNode}s with same resource name share one
+         * NodeSelectorSlot 负责收集资源的路径，并将这些资源的调用路径，以树状结构存储起来，用于根据调用路径来限流降级；
          * {@link ClusterNode}. See {@link ClusterBuilderSlot} for detail.
          */
         DefaultNode node = map.get(context.getName());
@@ -168,6 +169,7 @@ public class NodeSelectorSlot extends AbstractLinkedProcessorSlot<Object> {
         }
 
         context.setCurNode(node);
+        // 由此触发下一个节点的entry方法
         fireEntry(context, resourceWrapper, node, count, prioritized, args);
     }
 

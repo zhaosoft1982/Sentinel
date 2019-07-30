@@ -23,7 +23,7 @@ import com.alibaba.csp.sentinel.slotchain.ResourceWrapper;
 
 /**
  * A {@link ProcessorSlot} dedicates to {@link DegradeRule} checking.
- *
+ * DegradeSlot 则通过统计信息，以及预设的规则，来做熔断降级
  * @author leyou
  */
 public class DegradeSlot extends AbstractLinkedProcessorSlot<DefaultNode> {

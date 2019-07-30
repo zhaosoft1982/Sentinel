@@ -81,7 +81,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Communicate with Sentinel client.
- *
+ * 通过http获取引用的监控指标以及设置限流、降级、熔断的规则并发送到对应的应用中
  * @author leyou
  */
 @Component
@@ -371,6 +371,13 @@ public class SentinelApiClient {
         }
     }
 
+    /**
+     * 获取应用的资源
+     * @param ip
+     * @param port
+     * @param type
+     * @return
+     */
     public List<NodeVo> fetchResourceOfMachine(String ip, int port, String type) {
         return fetchItems(ip, port, RESOURCE_URL_PATH, type, NodeVo.class);
     }
@@ -391,6 +398,13 @@ public class SentinelApiClient {
         return fetchItems(ip, port, CLUSTER_NODE_PATH, type, NodeVo.class);
     }
 
+    /**
+     * 获取应用限流规则
+     * @param app
+     * @param ip
+     * @param port
+     * @return
+     */
     public List<FlowRuleEntity> fetchFlowRuleOfMachine(String app, String ip, int port) {
         List<FlowRule> rules = fetchRules(ip, port, FLOW_RULE_TYPE, FlowRule.class);
         if (rules != null) {
@@ -401,6 +415,13 @@ public class SentinelApiClient {
         }
     }
 
+    /**
+     * 获取应用降级规则
+     * @param app
+     * @param ip
+     * @param port
+     * @return
+     */
     public List<DegradeRuleEntity> fetchDegradeRuleOfMachine(String app, String ip, int port) {
         List<DegradeRule> rules = fetchRules(ip, port, DEGRADE_RULE_TYPE, DegradeRule.class);
         if (rules != null) {
@@ -411,6 +432,13 @@ public class SentinelApiClient {
         }
     }
 
+    /**
+     * 获取应用的系统保护规则
+     * @param app
+     * @param ip
+     * @param port
+     * @return
+     */
     public List<SystemRuleEntity> fetchSystemRuleOfMachine(String app, String ip, int port) {
         List<SystemRule> rules = fetchRules(ip, port, SYSTEM_RULE_TYPE, SystemRule.class);
         if (rules != null) {
@@ -423,7 +451,7 @@ public class SentinelApiClient {
 
     /**
      * Fetch all parameter flow rules from provided machine.
-     *
+     * 获取热点参数限流参数
      * @param app  application name
      * @param ip   machine client IP
      * @param port machine client port
@@ -448,7 +476,7 @@ public class SentinelApiClient {
 
     /**
      * Fetch all authority rules from provided machine.
-     *
+     * 获取机器的授权规则
      * @param app  application name
      * @param ip   machine client IP
      * @param port machine client port
@@ -471,7 +499,7 @@ public class SentinelApiClient {
     /**
      * set rules of the machine. rules == null will return immediately;
      * rules.isEmpty() means setting the rules to empty.
-     *
+     * 设置限流规则
      * @param app
      * @param ip
      * @param port
@@ -485,7 +513,7 @@ public class SentinelApiClient {
     /**
      * set rules of the machine. rules == null will return immediately;
      * rules.isEmpty() means setting the rules to empty.
-     *
+     * 设置降级规则
      * @param app
      * @param ip
      * @param port
@@ -499,7 +527,7 @@ public class SentinelApiClient {
     /**
      * set rules of the machine. rules == null will return immediately;
      * rules.isEmpty() means setting the rules to empty.
-     *
+     * 设置系统规则
      * @param app
      * @param ip
      * @param port
@@ -510,10 +538,26 @@ public class SentinelApiClient {
         return setRules(app, ip, port, SYSTEM_RULE_TYPE, rules);
     }
 
+    /**
+     * 设置授权规则
+     * @param app
+     * @param ip
+     * @param port
+     * @param rules
+     * @return
+     */
     public boolean setAuthorityRuleOfMachine(String app, String ip, int port, List<AuthorityRuleEntity> rules) {
         return setRules(app, ip, port, AUTHORITY_TYPE, rules);
     }
 
+    /**
+     * 设置热点参数规则
+     * @param app
+     * @param ip
+     * @param port
+     * @param rules
+     * @return
+     */
     public CompletableFuture<Void> setParamFlowRuleOfMachine(String app, String ip, int port, List<ParamFlowRuleEntity> rules) {
         if (rules == null) {
             return CompletableFuture.completedFuture(null);

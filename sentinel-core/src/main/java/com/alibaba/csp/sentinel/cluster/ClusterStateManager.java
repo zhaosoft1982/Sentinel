@@ -36,8 +36,13 @@ import com.alibaba.csp.sentinel.util.TimeUtil;
  * @since 1.4.0
  */
 public final class ClusterStateManager {
-
+    /**
+     * Client 模式
+     */
     public static final int CLUSTER_CLIENT = 0;
+    /**
+     * server 模式
+     */
     public static final int CLUSTER_SERVER = 1;
     public static final int CLUSTER_NOT_STARTED = -1;
 
